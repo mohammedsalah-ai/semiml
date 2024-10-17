@@ -10,7 +10,7 @@ python = "^3.12"
 fastapi = {extras = ["standard"], version = "^0.115.2"}
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
 asyncpg = "^0.29.0"
-fastapi-users = "^13.0.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^13.0.0"}
 pydantic = "^2.9.2"
 pydantic-settings = "^2.5.2"
 httpx = "^0.27.2"

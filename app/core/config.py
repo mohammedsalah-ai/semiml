@@ -2,6 +2,7 @@
 App Configurations.
 """
 
+import secrets
 from typing import Annotated, Any, Literal
 
 from pydantic_core import MultiHostUrl
@@ -28,6 +29,7 @@ class Settings(BaseSettings):
         env_file=".env", env_ignore_empty=True, extra="ignore"
     )
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
+    SECRET_KEY: str = secrets.token_urlsafe(32)
     BACKEND_CORS_ORIGINS: Annotated[list[AnyUrl] | str, BeforeValidator(parse_cors)] = (
         []
     )
