@@ -10,6 +10,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
 from app.models.files import File
+from app.models.experiments import Experiment
 from app.core.db import get_async_session
 from app.core.config import settings
 from app.schemas.users import UserRead, UserCreate, UserUpdate
@@ -36,6 +37,10 @@ SECRET = str(settings.SECRET_KEY)
 class User(SQLAlchemyBaseUserTableUUID, Base):
     files: Mapped[list[File]] = relationship(
         "File", cascade="all, delete", lazy="selectin"
+    )
+
+    experiments: Mapped[list[Experiment]] = relationship(
+        "Experiment", cascade="all, delete", lazy="selectin"
     )
 
 

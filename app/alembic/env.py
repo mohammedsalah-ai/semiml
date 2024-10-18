@@ -8,6 +8,8 @@ from alembic import context
 from app.core.config import settings
 from app.models.base import Base
 from app.models.users import User
+from app.models.files import File
+from app.models.experiments import Experiment
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
