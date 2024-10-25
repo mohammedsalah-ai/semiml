@@ -1,5 +1,5 @@
 """
-Define The Experiement model.
+Define the experiement model
 """
 
 import uuid
@@ -12,6 +12,8 @@ from app.models.base import Base
 
 
 class Experiment(Base):
+    """sqlalchemy experiments model"""
+
     __tablename__ = "experiments"
 
     id: Mapped[uuid.UUID] = mapped_column(

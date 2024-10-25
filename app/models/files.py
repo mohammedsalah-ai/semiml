@@ -1,5 +1,5 @@
 """
-Define The File model.
+Define the file model
 """
 
 import uuid
@@ -12,6 +12,8 @@ from app.models.base import Base
 
 
 class File(Base):
+    """sqlalchemy files model"""
+
     __tablename__ = "files"
 
     id: Mapped[uuid.UUID] = mapped_column(
