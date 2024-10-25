@@ -1,5 +1,5 @@
 """
-App Configurations.
+Application configurations
 """
 
 import secrets
@@ -17,6 +17,7 @@ from pydantic import (
 
 
 def parse_cors(v: Any) -> list[str] | str:
+    """utility to parse cors origins"""
     if isinstance(v, str) and not v.startswith("["):
         return [i.strip() for i in v.split(",")]
     elif isinstance(v, list | str):
@@ -25,6 +26,8 @@ def parse_cors(v: Any) -> list[str] | str:
 
 
 class Settings(BaseSettings):
+    """project settings"""
+
     model_config = SettingsConfigDict(
         env_file=".env", env_ignore_empty=True, extra="ignore"
     )
