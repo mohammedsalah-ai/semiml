@@ -1,5 +1,7 @@
 """
-ASGI FastAPI app.
+ASGI FastAPI application
+
+exposes the main ASGI application, that includes the main router
 """
 
 from fastapi import FastAPI
