@@ -17,4 +17,5 @@ RUN poetry install
 EXPOSE 80
 
 RUN alembic upgrade head && \
+  mkdir -p /home/uploads /home/models && \
   fastapi run --host 0.0.0.0 --port 80
