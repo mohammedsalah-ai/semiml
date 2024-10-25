@@ -16,9 +16,11 @@ from fastapi import (
     Request,
     status,
 )
+
 from sqlalchemy.orm import SessionEvents, SessionTransactionOrigin
 
 from app.core.db import get_async_session
+from app.core.config import settings
 from app.models.users import User, current_active_user
 from app.models.files import File
 from app.models.experiments import Experiment
@@ -35,10 +37,13 @@ from sklearn.ensemble import RandomForestClassifier
 
 router = APIRouter()
 
+MODEL_TARGET = str(settings.MODEL_TARGET)
+
 
 async def run_experiment(
     data: pd.DataFrame, file: File, experiment: Experiment, session: AsyncSession
 ):
+    """background task to run an experiment"""
 
     schema = "Input: "
 
@@ -58,7 +63,7 @@ async def run_experiment(
     model = RandomForestClassifier()
     model.fit(X, y_encoded)
 
-    model_path = "/home/supermaker/models/" + experiment.title + ".pkl"
+    model_path = MODEL_TARGET + experiment.title + ".pkl"
     joblib.dump(model, model_path)
 
     setattr(experiment, "model_path", model_path)
@@ -70,6 +75,8 @@ async def run_experiment(
 async def get_experiment_or_404(
     id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_async_session)]
 ) -> Experiment:
+    """dependency to get an experiment or return 404"""
+
     experiment = await session.get(Experiment, id)
     if not experiment:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)

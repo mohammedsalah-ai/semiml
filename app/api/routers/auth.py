@@ -1,5 +1,5 @@
 """
-Define authentication router
+Define authentication router using FastAPI Users router
 """
 
 from fastapi import APIRouter

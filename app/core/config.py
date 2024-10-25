@@ -2,6 +2,7 @@
 Application configurations
 """
 
+import os
 import secrets
 from typing import Annotated, Any, Literal
 
@@ -25,6 +26,14 @@ def parse_cors(v: Any) -> list[str] | str:
     raise ValueError(v)
 
 
+def expand_tilde(path):
+    """expands the tilde (~) in a path to the user's home directory"""
+    if path.startswith("~"):
+        return os.path.expanduser(path)
+
+    return path
+
+
 class Settings(BaseSettings):
     """project settings"""
 
@@ -36,6 +45,9 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: Annotated[list[AnyUrl] | str, BeforeValidator(parse_cors)] = (
         []
     )
+
+    UPLOAD_TARGET: str = expand_tilde("~/uploads/")
+    MODEL_TARGET: str = expand_tilde("~/models/")
 
     @computed_field
     @property

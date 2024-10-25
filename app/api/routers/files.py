@@ -1,6 +1,8 @@
 """
-Define files routers.
+Define files routers
 """
+
+from typing import Annotated
 
 import io
 import os
@@ -9,11 +11,12 @@ import uuid
 import aiofiles
 import aiofiles.os
 import asyncio
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import pandas as pd
+from app.core.config import settings
 
-from typing import Annotated
+import pandas as pd
 
 from fastapi import APIRouter, Depends, HTTPException, Form, File, UploadFile, status
 from fastapi.responses import FileResponse
@@ -25,7 +28,7 @@ from app.schemas.files import FileRead
 
 router = APIRouter()
 
-uploadtarget = "/home/supermaker/uploaded/"
+UPLOAD_TARGET = str(settings.UPLOAD_TARGET)
 
 
 async def csv_filecheck(
@@ -33,6 +36,7 @@ async def csv_filecheck(
         UploadFile | None, File(description="structured data in a .csv file")
     ] = None
 ) -> UploadFile | None:
+    """dependency to check if the file is a csv file"""
 
     if not file:
         return None
@@ -74,6 +78,8 @@ async def csv_filecheck(
 async def get_file_or_404(
     id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_async_session)]
 ) -> FileModel:
+    """dependency to get a file or raise 404 HTTP exception"""
+
     file = await session.get(FileModel, id)
 
     if file is None:
@@ -114,7 +120,7 @@ async def create_file(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Provide a CSV file"
         )
 
-    file_path = uploadtarget + str(csv_file.filename)
+    file_path = UPLOAD_TARGET + str(csv_file.filename)
     new_file = FileModel(user=user, title=title, path=file_path)
     session.add(new_file)
 
@@ -163,7 +169,7 @@ async def patch_file(
     if csv_file:
         await aiofiles.os.remove(file.path)
 
-        file_path = uploadtarget + str(csv_file.filename)
+        file_path = UPLOAD_TARGET + str(csv_file.filename)
         setattr(file, "path", file_path)
         async with aiofiles.open(file_path, "wb") as f:
             while content := await csv_file.read(1024):

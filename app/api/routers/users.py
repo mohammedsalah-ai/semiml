@@ -1,5 +1,5 @@
 """
-Define users router.
+Define users router using FastAPI Users router
 """
 
 from fastapi import APIRouter

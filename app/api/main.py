@@ -1,5 +1,5 @@
 """
-Consolidatie All routers in one.
+Consolidatie all routers in one
 """
 
 from fastapi import APIRouter
