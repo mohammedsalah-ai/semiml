@@ -1,22 +1,26 @@
 FROM python:3.12-bookworm
 
+SHELL ["/bin/bash", "-c"]
+
 RUN apt-get update && apt-get install -y \
   build-essential \
   libpq-dev \
   postgresql-client \
   && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://install.python-poetry.org | python3 - && \
-  export PATH="/root/.local/bin:$PATH"
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /work
 
 COPY . .
 
-RUN poetry install
+RUN python -m venv .venv && \
+  source .venv/bin/activate && \
+  /root/.local/bin/poetry install
 
 EXPOSE 80
 
-RUN alembic upgrade head && \
-  mkdir -p /home/uploads /home/models && \
-  fastapi run --host 0.0.0.0 --port 80
+
+CMD ["/bin/bash", "-c","/work/.venv/bin/alembic upgrade head && \
+     mkdir -p ~/uploads ~/models && \
+     /work/.venv/bin/fastapi run --host 0.0.0.0 --port 80"]
