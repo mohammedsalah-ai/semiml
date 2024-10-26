@@ -14,30 +14,53 @@ It enables users to upload and store their structured data in form of **.csv** f
 
 ## Installation
 
-First of all, ensure Docker is up and running on your system.
+First, please ensure Docker is up and running on your system.
 
-1. clone repo.
+**1. clone repo.**
 
 ```bash
 git clone https://github.com/mohammedsalah-ai/semiml
 ```
 
-2. go to the cloned directory.
+**2. go to the cloned directory.**
 
 ```bash
 cd semiml
 ```
 
-3. launch compose.
+**3. create a .env file, and put the following.**
+
+```txt
+ENVIRONMENT=local
+
+# Postgres
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=app
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+```
+
+**4. launch compose.**
 
 ```bash
 docker compose up
 ```
 
-4. Navigate to localhost:8000/docs in your favorite web browser, to access the Swagger API interactive documentations.
-
-
-
-
+**5. Navigate to localhost:8000/docs in your favorite web browser, to access the Swagger API interactive documentation.**
 
 ## Walkthrough
+
+https://github.com/user-attachments/assets/e063104a-9789-4625-9e6e-c5a2ce7759f6
+
+
+## CAPABILITIES
+
+- User Registration.
+- User Verification.
+- User Login and Forgot Password.
+- CSV File Upload and File Management.
+- Classification ML Experiment Creation with Uploaded CSV Files.
+- Turn ON/OFF Experiment Models LIVE to Accept Inference or to Reject it.
+- Inference From Experiment Models.
+- MORE TO COME!
