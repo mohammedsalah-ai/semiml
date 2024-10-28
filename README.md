@@ -64,3 +64,12 @@ https://github.com/user-attachments/assets/e063104a-9789-4625-9e6e-c5a2ce7759f6
 - Turn ON/OFF Experiment Models LIVE to Accept Inference or to Reject it.
 - Inference From Experiment Models.
 - MORE TO COME!
+
+## TESTING
+Ensure you have a test database up and running with alembic migrations applied, and run
+```bash
+pytest
+```
+this will trigger `pytest` tests exploration and run them, <br>
+**Note** <br>
+tests are written with the `pytest-asyncio` plugin which allows writing asynchronous tests, also tests use `httpx` as it provides access to an asynchronous HTTP client. 
